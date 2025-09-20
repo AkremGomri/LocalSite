@@ -119,6 +119,13 @@ export const MODELS = [
     isLocal: true,
   },
   {
+    value: "llama3",
+    label: "Llama 3(Local)",
+    providers: ["ollama", "lm-studio"],
+    autoProvider: "ollama",
+    isLocal: true,
+  },
+  {
     value: "qwen2.5-coder:32b",
     label: "Qwen2.5 Coder 32B (Local)",
     providers: ["ollama", "lm-studio"],
