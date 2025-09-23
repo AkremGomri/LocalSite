@@ -300,7 +300,7 @@ export async function PUT(request: NextRequest) {
 
     while (moreBlocks) {
       console.log("bloooooooooocks *******************");
-      
+      console.log("chunk on 103 : ",chunk);
       const searchStartIndex = chunk.indexOf(SEARCH_START, position);
       console.log("searchStartIndex: ",searchStartIndex);
       if (searchStartIndex === -1) {
@@ -322,7 +322,7 @@ export async function PUT(request: NextRequest) {
         continue;
       }
 
-      console.log("chunk: ",chunk);
+      console.log("chunk on 325 : ",chunk);
       const searchBlock = chunk.substring(
         searchStartIndex + SEARCH_START.length,
         dividerIndex
@@ -332,16 +332,24 @@ export async function PUT(request: NextRequest) {
         replaceEndIndex
       );
 
+      console.log("this is searchBlock: ",searchBlock);
+      console.log("this is replaceBlock: ",replaceBlock);
+      
       if (searchBlock.trim() === "") {
+        console.log("we are trimming");
+        
         newHtml = `${replaceBlock}\n${newHtml}`;
         console.log("newHtml: ",newHtml);
         updatedLines.push([1, replaceBlock.split("\n").length]);
         console.log("updatedLines: ",updatedLines);
       } else {
+        console.log("we are in blockPosition");
         const blockPosition = newHtml.indexOf(searchBlock);
         console.log("blockPosition: ",blockPosition);
         
         if (blockPosition !== -1) {
+          console.log("blockPosition !== -1");
+          
           const beforeText = newHtml.substring(0, blockPosition);
           console.log("beforeText: ",beforeText);
           const startLineNumber = beforeText.split("\n").length;
