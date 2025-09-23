@@ -22,7 +22,11 @@ setInterval(() => {
 
 // Helper function to call Ollama API
 async function callOllama(messages: any[], model: string, stream = true) {
+  console.log("----------------------- callOllama ------------------------------");
+  
   const baseUrl = process.env.OLLAMA_BASE_URL || "http://localhost:11434";
+  console.log("baseUrl: ",baseUrl);
+  
   const endpoint = stream ? "/api/chat" : "/api/chat";
   
   const response = await fetch(`${baseUrl}${endpoint}`, {
@@ -36,15 +40,20 @@ async function callOllama(messages: any[], model: string, stream = true) {
       stream,
     }),
   });
+  console.log("response: ",response.length);
+  
 
   if (!response.ok) {
     throw new Error(`Ollama API error: ${response.statusText}`);
   }
 
+  console.log("response: ",response);
   return response;
 }
 
 export async function POST(request: NextRequest) {
+  console.log("----------------------- POST ------------------------------");
+
   const authHeaders = await headers();
   const body = await request.json();
   const { prompt, provider, model, redesignMarkdown, html } = body;
@@ -91,6 +100,11 @@ export async function POST(request: NextRequest) {
         Connection: "keep-alive",
       },
     });
+    console.log("response: ",response.length);
+    console.log("INITIAL_SYSTEM_PROMPT: ",INITIAL_SYSTEM_PROMPT.length);
+    console.log("redesignMarkdown: ",redesignMarkdown.length);
+    console.log("html: ",html.length);
+    console.log("prompt: ",prompt.length);
 
     (async () => {
       let completeResponse = "";
@@ -183,6 +197,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  console.log("----------------------- PUT ------------------------------");
   const authHeaders = await headers();
   const body = await request.json();
   const { prompt, html, previousPrompt, provider, selectedElementHtml, model } =
@@ -217,6 +232,12 @@ export async function PUT(request: NextRequest) {
   }
 
   try {
+    console.log("FOLLOW_UP_SYSTEM_PROMPT: ",FOLLOW_UP_SYSTEM_PROMPT.length);
+    console.log("previousPrompt: ",previousPrompt.length);
+    console.log("selectedElementHtml: ",selectedElementHtml.length);
+    console.log("html: ",html.length);
+    console.log("prompt: ",prompt.length);
+    
     const messages = [
       {
         role: "system",
@@ -247,6 +268,9 @@ export async function PUT(request: NextRequest) {
     if (provider === "ollama" || provider === "auto" || !provider) {
       const ollamaResponse = await callOllama(messages, model, false);
       const responseData = await ollamaResponse.json();
+      console.log("ollamaResponse: ",ollamaResponse);
+      console.log("responseData: ",responseData.length);
+      
       chunk = responseData.message?.content || "";
     } else {
       throw new Error(`Provider ${provider} not yet implemented`);
@@ -310,6 +334,9 @@ export async function PUT(request: NextRequest) {
 
       position = replaceEndIndex + REPLACE_END.length;
     }
+
+    console.log("len NextResponse: ",NextResponse.length);
+    
 
     return NextResponse.json({
       ok: true,
