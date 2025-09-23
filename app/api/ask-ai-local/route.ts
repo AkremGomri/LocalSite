@@ -293,29 +293,36 @@ export async function PUT(request: NextRequest) {
     }
 
     const updatedLines: number[][] = [];
+    console.log("updatedLines: ",updatedLines)
     let newHtml = html;
     let position = 0;
     let moreBlocks = true;
 
     while (moreBlocks) {
+      console.log("bloooooooooocks *******************");
+      
       const searchStartIndex = chunk.indexOf(SEARCH_START, position);
+      console.log("searchStartIndex: ",searchStartIndex);
       if (searchStartIndex === -1) {
         moreBlocks = false;
         continue;
       }
 
       const dividerIndex = chunk.indexOf(DIVIDER, searchStartIndex);
+      console.log("dividerIndex: ",dividerIndex);
       if (dividerIndex === -1) {
         moreBlocks = false;
         continue;
       }
 
       const replaceEndIndex = chunk.indexOf(REPLACE_END, dividerIndex);
+      console.log("replaceEndIndex: ",replaceEndIndex);
       if (replaceEndIndex === -1) {
         moreBlocks = false;
         continue;
       }
 
+      console.log("chunk: ",chunk);
       const searchBlock = chunk.substring(
         searchStartIndex + SEARCH_START.length,
         dividerIndex
@@ -327,17 +334,29 @@ export async function PUT(request: NextRequest) {
 
       if (searchBlock.trim() === "") {
         newHtml = `${replaceBlock}\n${newHtml}`;
+        console.log("newHtml: ",newHtml);
         updatedLines.push([1, replaceBlock.split("\n").length]);
+        console.log("updatedLines: ",updatedLines);
       } else {
         const blockPosition = newHtml.indexOf(searchBlock);
+        console.log("blockPosition: ",blockPosition);
+        
         if (blockPosition !== -1) {
           const beforeText = newHtml.substring(0, blockPosition);
+          console.log("beforeText: ",beforeText);
           const startLineNumber = beforeText.split("\n").length;
+          console.log("startLineNumber: ",startLineNumber);
           const replaceLines = replaceBlock.split("\n").length;
+          console.log("replaceLines: ",replaceLines);
           const endLineNumber = startLineNumber + replaceLines - 1;
+          console.log("endLineNumber: ",endLineNumber);
 
           updatedLines.push([startLineNumber, endLineNumber]);
+          console.log("updatedLines : ",updatedLines);
+          
+          console.log("newHtml before replace : ",newHtml);
           newHtml = newHtml.replace(searchBlock, replaceBlock);
+          console.log("newHtml after replace: ",newHtml);
         }
       }
 
