@@ -309,6 +309,8 @@ export async function PUT(request: NextRequest) {
       }
 
       const dividerIndex = chunk.indexOf(DIVIDER, searchStartIndex);
+      console.log("DIVIDER: ",DIVIDER);
+      
       console.log("dividerIndex: ",dividerIndex);
       if (dividerIndex === -1) {
         moreBlocks = false;
