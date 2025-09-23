@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
     });
     console.log("response: ",response.length);
     console.log("INITIAL_SYSTEM_PROMPT: ",INITIAL_SYSTEM_PROMPT.length);
-    console.log("redesignMarkdown: ",redesignMarkdown.length);
+    console.log("redesignMarkdown: ",redesignMarkdown);
     console.log("html: ",html.length);
     console.log("prompt: ",prompt.length);
 
