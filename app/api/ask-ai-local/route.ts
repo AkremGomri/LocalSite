@@ -207,6 +207,8 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   console.log("----------------------- PUT ------------------------------");
+  console.log("DIVIDER: ",DIVIDER);
+  
   const authHeaders = await headers();
   const body = await request.json();
   const { prompt, html, previousPrompt, provider, selectedElementHtml, model } =
