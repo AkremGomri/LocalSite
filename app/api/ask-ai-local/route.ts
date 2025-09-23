@@ -33,6 +33,9 @@ async function callOllama(messages: any[], model: string, stream = true) {
   console.log("len messages: ",messages.length);
   console.log("type messages: ",typeof messages)
   console.log("messages: ",messages)
+  for(let message of messages){
+    console.log(`Role : ${message.role}\nContent length : ${message.content.length}`);
+  }
   console.log("len stream: ",stream);
   
   const response = await fetch(`${baseUrl}${endpoint}`, {
