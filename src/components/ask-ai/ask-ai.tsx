@@ -74,6 +74,7 @@ function AskAI({
         if (!request.ok) {
           console.log("d5alna lenna");
           console.log("request: ",request);
+          console.log("request.body: ",request.body);
           
           const res = await request.json();
           console.log("res: ",res)
