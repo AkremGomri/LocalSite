@@ -44,6 +44,7 @@ function AskAI({
   audio.volume = 0.5;
 
   const callAi = async () => {
+    console.log("------------- callAi -------------")
     if (isAiWorking || !prompt.trim()) return;
     setisAiWorking(true);
     setProviderError("");
@@ -51,6 +52,7 @@ function AskAI({
     let contentResponse = "";
     let lastRenderTime = 0;
     try {
+      console.log("try block");
       onNewPrompt(prompt);
       const request = await fetch("/api/ask-ai", {
         method: "POST",
@@ -67,6 +69,7 @@ function AskAI({
       if (request && request.body) {
         if (!request.ok) {
           const res = await request.json();
+          console.log("res: ",res)
           if (res.openSelectProvider) {
             setOpenProvider(true);
             setProviderError(res.message);
