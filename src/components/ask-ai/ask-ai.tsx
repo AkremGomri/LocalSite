@@ -55,6 +55,8 @@ function AskAI({
       console.log("try block");
       onNewPrompt(prompt);
       console.log("Before fetching");
+      console.log("prompt: ",prompt);
+      console.log("provider: ",provider);
       const request = await fetch("/api/ask-ai", {
         method: "POST",
         body: JSON.stringify({
