@@ -75,10 +75,17 @@ function AskAI({
           const res = await request.json();
           console.log("res: ",res)
           if (res.openSelectProvider) {
+            console.log("chnowa hethy");
+            
             setOpenProvider(true);
             setProviderError(res.message);
+            console.log("5rajna men chnowa hethy");
+            
           // Suppression de la vérification pour le mode pro/login
           } else {
+            console.log("res.message: ",res.message);
+            console.log("res: ",res);
+            
             toast.error(res.message);
           }
           setisAiWorking(false);
