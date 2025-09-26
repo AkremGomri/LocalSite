@@ -73,7 +73,11 @@ interface OllamaMessage {
 app.post(
   "/api/ask-ai",
   async (req: Request, res: Response): Promise<void> => {
+    console.log("------------- /api/ask-ai -------------");
+    
     const { prompt, html, previousPrompt, provider }: AskAiRequest = req.body;
+    console.log("req.body: ",req.body);
+    
     if (!prompt) {
       res.status(400).send({
         ok: false,
