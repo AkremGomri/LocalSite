@@ -68,6 +68,8 @@ function AskAI({
         },
       });
       console.log("After fetching");
+      console.log(request);
+      
       if (request && request.body) {
         if (!request.ok) {
           const res = await request.json();
@@ -83,6 +85,8 @@ function AskAI({
           console.log("res before return: ",res)
           return;
         }
+        console.log("after if block");
+        
         const reader = request.body.getReader();
         const decoder = new TextDecoder("utf-8");
 
