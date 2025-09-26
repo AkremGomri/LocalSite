@@ -54,6 +54,7 @@ function AskAI({
     try {
       console.log("try block");
       onNewPrompt(prompt);
+      console.log("Before fetching");
       const request = await fetch("/api/ask-ai", {
         method: "POST",
         body: JSON.stringify({
@@ -66,6 +67,7 @@ function AskAI({
           "Content-Type": "application/json",
         },
       });
+      console.log("After fetching");
       if (request && request.body) {
         if (!request.ok) {
           const res = await request.json();
@@ -78,6 +80,7 @@ function AskAI({
             toast.error(res.message);
           }
           setisAiWorking(false);
+          console.log("res before return: ",res)
           return;
         }
         const reader = request.body.getReader();
@@ -86,6 +89,7 @@ function AskAI({
         const read = async () => {
           const { done, value } = await reader.read();
           if (done) {
+            console.log("AI responded successfully !")
             toast.success("AI responded successfully");
             setPrompt("");
             setPreviousPrompt(prompt);
