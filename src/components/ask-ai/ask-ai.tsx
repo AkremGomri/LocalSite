@@ -72,6 +72,9 @@ function AskAI({
       
       if (request && request.body) {
         if (!request.ok) {
+          console.log("d5alna lenna");
+          console.log("request: ",request);
+          
           const res = await request.json();
           console.log("res: ",res)
           if (res.openSelectProvider) {
